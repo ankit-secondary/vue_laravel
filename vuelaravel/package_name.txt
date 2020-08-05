@@ -1,0 +1,9 @@
+
+
+composer require tymon/jwt-auth:dev-develop
+
+php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"
+
+php artisan jwt:secret
+
+npm i @websanova/vue-auth vue-router vue-axios axios es6-promise
