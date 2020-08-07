@@ -5,6 +5,8 @@ import Register from './components/Register'
 import Login from './components/Login'
 import Dashboard from './components/user/Dashboard'
 import AdminDashboard from './components/admin/Dashboard'
+
+
 // Routes
 const routes = [
   {
@@ -31,6 +33,7 @@ const routes = [
       auth: false
     }
   },
+ 
   // USER ROUTES
   {
     path: '/dashboard',
@@ -46,7 +49,7 @@ const routes = [
     name: 'admin.dashboard',
     component: AdminDashboard,
     meta: {
-      auth: {roles: 2, redirect: {name: 'login'}, forbiddenRedirect: '/403'}
+     auth: {roles: 2, redirect: {name: 'login'}, forbiddenRedirect: '/403'}
     }
   },
 ]

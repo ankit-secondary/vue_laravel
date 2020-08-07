@@ -7,7 +7,7 @@
             </div>
         </div>
         <div class="card card-default">
-            <div class="card-header">Liste des utilisateurs</div>
+            <div class="card-header">All users</div>
             <div class="card-body">
                 <userList></userList>
             </div>

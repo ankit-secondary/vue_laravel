@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="card card-default">
-            <div class="card-header">Inscription</div>
+            <div class="card-header">Registration</div>
             <div class="card-body">
                 <div class="alert alert-danger" v-if="has_error && !success">
                     <p v-if="error == 'registration_validation_error'">Please complete form field</p>

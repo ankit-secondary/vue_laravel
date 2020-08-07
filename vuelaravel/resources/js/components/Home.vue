@@ -1,13 +1,13 @@
 <template>
     <div class="container">
         <div class="card card-default">
-            <div class="card-header">Bienvenue</div>
+            <div class="card-header">WELCOME</div>
             <div class="card-body">
                 <p>
                     Hello there 
                 </p>
                 <p>
-                    How are you??
+                    You are welcome
                 </p>
             </div>
         </div>

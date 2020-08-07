@@ -1,4 +1,4 @@
-<template>
+  <template>
     <div class="container">
         <div class="card card-default">
             <div class="card-header">Login</div>
@@ -36,17 +36,19 @@
     methods: {
       login() {
         // get the redirect object
-        var redirect = this.$auth.redirect()
-        var app = this
+      var redirect = this.$auth.redirect()
+      var app= this
         this.$auth.login({
           params: {
-            email: app.email,
-            password: app.password
+            email: this.email,
+            password: this.password
           },
           success: function() {
             // handle redirection
-            const redirectTo = redirect ? redirect.from.name : this.$auth.user().role === 2 ? 'admin.dashboard' : 'dashboard'
-            this.$router.push({name: redirectTo})
+            
+      const redirectTo = redirect ? redirect.from.name : app.role === 2 ? 'admin.dashboard' : 'dashboard'
+
+            app.$router.push({name: redirectTo})
           },
           error: function() {
             app.has_error = true

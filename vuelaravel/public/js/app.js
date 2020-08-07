@@ -2945,13 +2945,13 @@ __webpack_require__.r(__webpack_exports__);
       var app = this;
       this.$auth.login({
         params: {
-          email: app.email,
-          password: app.password
+          email: this.email,
+          password: this.password
         },
         success: function success() {
           // handle redirection
-          var redirectTo = redirect ? redirect.from.name : this.$auth.user().role === 2 ? 'admin.dashboard' : 'dashboard';
-          this.$router.push({
+          var redirectTo = redirect ? redirect.from.name : app.role === 2 ? 'admin.dashboard' : 'dashboard';
+          app.$router.push({
             name: redirectTo
           });
         },
@@ -40126,12 +40126,12 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "container" }, [
       _c("div", { staticClass: "card card-default" }, [
-        _c("div", { staticClass: "card-header" }, [_vm._v("Bienvenue")]),
+        _c("div", { staticClass: "card-header" }, [_vm._v("WELCOME")]),
         _vm._v(" "),
         _c("div", { staticClass: "card-body" }, [
           _c("p", [_vm._v("\n                Hello there \n            ")]),
           _vm._v(" "),
-          _c("p", [_vm._v("\n                How are you??\n            ")])
+          _c("p", [_vm._v("\n                You are welcome\n            ")])
         ])
       ])
     ])
@@ -40390,7 +40390,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "card card-default" }, [
-      _c("div", { staticClass: "card-header" }, [_vm._v("Inscription")]),
+      _c("div", { staticClass: "card-header" }, [_vm._v("Registration")]),
       _vm._v(" "),
       _c("div", { staticClass: "card-body" }, [
         _vm.has_error && !_vm.success
@@ -40573,9 +40573,7 @@ var render = function() {
     _vm._m(0),
     _vm._v(" "),
     _c("div", { staticClass: "card card-default" }, [
-      _c("div", { staticClass: "card-header" }, [
-        _vm._v("Liste des utilisateurs")
-      ]),
+      _c("div", { staticClass: "card-header" }, [_vm._v("All users")]),
       _vm._v(" "),
       _c("div", { staticClass: "card-body" }, [_c("userList")], 1)
     ])
@@ -40617,13 +40615,11 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("h3", [_vm._v("Liste de utilisateurs")]),
+    _c("h3", [_vm._v("All users")]),
     _vm._v(" "),
     _vm.has_error
       ? _c("div", { staticClass: "alert alert-danger" }, [
-          _c("p", [
-            _vm._v("Erreur, impossible de récupérer la liste des utilisateurs.")
-          ])
+          _c("p", [_vm._v("List of all users registered")])
         ])
       : _vm._e(),
     _vm._v(" "),
@@ -40665,7 +40661,7 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("th", { attrs: { scope: "col" } }, [_vm._v("Email")]),
       _vm._v(" "),
-      _c("th", { attrs: { scope: "col" } }, [_vm._v("Date d'inscription")])
+      _c("th", { attrs: { scope: "col" } }, [_vm._v("Created Date")])
     ])
   }
 ]
@@ -55998,99 +55994,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Index__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Index */ "./resources/js/Index.vue");
 /* harmony import */ var _auth__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./auth */ "./resources/js/auth.js");
 /* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./router */ "./resources/js/router.js");
-/*import ViewComponent from './components/ViewComponent.vue';
-import App from './App.vue';
-import Vuetify from 'vuetify';
-import 'vuetify/dist/vuetify.min.css';
-import EditComponent from './components/EditComponent.vue'
-import CreateComponent from './components/CreateComponent.vue'
-import Vue from 'vue'
-import './bootstrap'
-import router from './router'
-
-
-
-
- 
-//Toaster for message
-import Toaster from 'v-toaster'
- 
-// You need a specific loader for CSS files like https://github.com/webpack/css-loader
-import 'v-toaster/dist/v-toaster.css'
- 
-// optional set default imeout, the default is 10000 (10 seconds).
-Vue.use(Toaster, {timeout: 1000});
- 
-//sweet alert
-import VueSweetalert2 from 'vue-sweetalert2';
-Vue.use(VueSweetalert2);
- 
-//import vue-router
-import VueRouter from 'vue-router';
-Vue.use(VueRouter);
- 
-//import vue-axios
-import VueAxios from 'vue-axios';
- 
-import axios from 'axios';
- 
-Vue.use(VueAxios, axios);
- 
-Vue.use(Vuetify);
-
-// Set Vue authentication
-Vue.use(VueAxios, axios)
-axios.defaults.baseURL = `${process.env.MIX_APP_URL}/api`
-Vue.use(VueAuth, auth)
- 
-//top-progress bar
-import vueTopprogress from 'vue-top-progress'
-Vue.use(vueTopprogress);
- 
-const routes = [
- 
-    
-    {
-        path: '/view',
-        name: 'view',
-        component: ViewComponent,
-    },
-
-    {
-        path: '/create',
-        name: 'create',
-        component: CreateComponent,
-    },
-
-    {
-        path: '/edit/:id',
-        name: 'edit',
-        component: EditComponent,
-    },
-];
-
- 
-const router = new VueRouter({
-    mode: 'history',
-    routes: routes,
-    root:  '/'
-}); 
- 
-// Vue.router = router;
-// App.router = Vue.router;
- 
-// initialize vue instance
-
-/*new Vue({
-  el: '#app',
-  router
-});
- 
-new Vue({
-    el: '#app',
-    router,
-    render: h => h(App),
-});*/
 
 
 
@@ -56108,7 +56011,7 @@ vue__WEBPACK_IMPORTED_MODULE_3___default.a.router = _router__WEBPACK_IMPORTED_MO
 vue__WEBPACK_IMPORTED_MODULE_3___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_6__["default"]); // Set Vue authentication
 
 vue__WEBPACK_IMPORTED_MODULE_3___default.a.use(vue_axios__WEBPACK_IMPORTED_MODULE_5___default.a, axios__WEBPACK_IMPORTED_MODULE_1___default.a);
-axios__WEBPACK_IMPORTED_MODULE_1___default.a.defaults.baseURL = "".concat("http://127.0.0.1:8000", "/api");
+axios__WEBPACK_IMPORTED_MODULE_1___default.a.defaults.baseURL = "".concat("http://localhost:8000", "/api");
 vue__WEBPACK_IMPORTED_MODULE_3___default.a.use(_websanova_vue_auth__WEBPACK_IMPORTED_MODULE_4__["default"], _auth__WEBPACK_IMPORTED_MODULE_8__["default"]); // Load Index
 
 vue__WEBPACK_IMPORTED_MODULE_3___default.a.component('index', _Index__WEBPACK_IMPORTED_MODULE_7__["default"]);
