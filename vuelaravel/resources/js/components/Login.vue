@@ -28,6 +28,7 @@ import router from '../router'
       return {
         email: null,
         password: null,
+       localStorageSupport: true,
         has_error: false
       }
     },
@@ -47,8 +48,8 @@ import router from '../router'
           success: function(response) {
             // handle redirection
             var role= response.data.user.role;
-            
-          
+            window.localStorage.setItem('role', response.data.user.role);
+           
       const redirectTo = redirect ? redirect.from.name : role==2 ? 'admin.dashboard' : 'dashboard'
       
       app.$toaster.success('Logged in Successfully...');

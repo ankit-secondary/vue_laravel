@@ -54,6 +54,7 @@ const routes = [
     component: AdminDashboard,
     meta: {
     auth: true,
+    is_admin:true,
     }
   },
 
@@ -67,6 +68,32 @@ const router = new VueRouter({
   routes,
 });
 
+var Role  = window.localStorage.getItem('role');
+    if(Role)
+    {
+
+    }
+
+  router.beforeEach((to, from, next) => {
+    if(to.matched.some(record => record.meta.auth)) {
+
+            let role = window.localStorage.getItem('role')
+            if(to.matched.some(record => record.meta.is_admin)) {
+                if(role == 2){
+                    next()
+                }
+                else{
+                    next({ name: 'dashboard'})
+                }
+            }else {
+                next()
+            }
+        
+    } else {
+        next()
+    }
+})
+          
 
 export default router
 
