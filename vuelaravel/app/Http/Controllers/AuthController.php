@@ -9,6 +9,8 @@ use Validator;
 
 class AuthController extends Controller {
 
+	//New user registration
+
 	public function register(Request $request) {
 		$v = Validator::make($request->all(), [
 				'email'    => 'required|email|unique:users',
@@ -26,14 +28,20 @@ class AuthController extends Controller {
 		$user->save();
 		return response()->json(['status' => 'success'], 200);
 	}
+
+	//User Login
+
 	public function login(Request $request) {
 		$credentials = $request->only('email', 'password');
 		if ($token = $this->guard()->attempt($credentials)) {
-			return response()->json(['status' => 'success'], 200)->header('Authorization', $token);
+			$user = Auth::user();
+			return response()->json(['status' => 'success', 'user' => $user], 200)->header('Authorization', $token);
 		}
 
 		return response()->json(['error' => 'login_error'], 401);
 	}
+
+	//User  Logout
 
 	public function logout() {
 		$this->guard()->logout();
@@ -42,6 +50,9 @@ class AuthController extends Controller {
 				'msg'    => 'Logged out Successfully.'
 			], 200);
 	}
+
+	//Logged in user detail
+
 	public function user(Request $request) {
 		$user = User::find(Auth::user()->id);
 		return response()->json([
@@ -49,6 +60,9 @@ class AuthController extends Controller {
 				'data'   => $user
 			]);
 	}
+
+	//Refresh token
+
 	public function refresh() {
 		if ($token = $this->guard()->refresh()) {
 			return response()

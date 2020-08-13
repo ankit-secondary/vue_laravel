@@ -22,6 +22,7 @@
     </div>
 </template>
 <script>
+import router from '../router'
   export default {
     data() {
       return {
@@ -36,19 +37,23 @@
     methods: {
       login() {
         // get the redirect object
-      var redirect = this.$auth.redirect()
-      var app= this
+      var redirect = this.$auth.redirect();
+      var app= this;
         this.$auth.login({
           params: {
             email: this.email,
             password: this.password
           },
-          success: function() {
+          success: function(response) {
             // handle redirection
+            var role= response.data.user.role;
             
-      const redirectTo = redirect ? redirect.from.name : app.role === 2 ? 'admin.dashboard' : 'dashboard'
+          
+      const redirectTo = redirect ? redirect.from.name : role==2 ? 'admin.dashboard' : 'dashboard'
+      
+      app.$toaster.success('Logged in Successfully...');
 
-            app.$router.push({name: redirectTo})
+               router.push({name: redirectTo})
           },
           error: function() {
             app.has_error = true

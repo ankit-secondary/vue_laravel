@@ -1,10 +1,12 @@
-import VueRouter from 'vue-router'
+import VueRouter from 'vue-router';
 // Pages
-import Home from './components/Home'
-import Register from './components/Register'
-import Login from './components/Login'
-import Dashboard from './components/user/Dashboard'
-import AdminDashboard from './components/admin/Dashboard'
+import Home from './components/Home';
+import Register from './components/Register';
+import Login from './components/Login';
+import Dashboard from './components/user/Dashboard';
+import AdminDashboard from './components/admin/Dashboard';
+
+
 
 
 // Routes
@@ -33,6 +35,8 @@ const routes = [
       auth: false
     }
   },
+
+ 
  
   // USER ROUTES
   {
@@ -49,13 +53,20 @@ const routes = [
     name: 'admin.dashboard',
     component: AdminDashboard,
     meta: {
-     auth: {roles: 2, redirect: {name: 'login'}, forbiddenRedirect: '/403'}
+    auth: true,
     }
   },
-]
+
+  { path: '*', redirect: '/' },
+
+
+];
 const router = new VueRouter({
   history: true,
   mode: 'history',
   routes,
-})
+});
+
+
 export default router
+

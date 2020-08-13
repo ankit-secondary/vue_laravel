@@ -1,48 +1,252 @@
 <template>
-<div>
-    <h3>All users</h3>
-    <div class="alert alert-danger" v-if="has_error">
-        <p>List of all users registered</p>
+    <div class="container">
+        <div class="row mt-5">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Users Table</h3>
+
+                <div class="card-tools">
+                    <button class="btn btn-success" data-toggle="modal" data-target="#addNew" @click="openModalWindow">Add New <i class="fa fa-user-plus fa-fw"></i></button>
+                </div>
+              </div>
+
+              <div class="card-body table-responsive p-0">
+                <table class="table table-hover">
+                  <tbody>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Type</th>
+                        <th>Registered At</th>
+                        <th>Modify</th>
+                  </tr> 
+
+                  <tr v-for="user in users" v-bind:key="user.id">
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.role}}</td>
+                    <td>{{ user.created_at | formatDate}}</td>
+
+                    <td>
+                        <a href="#" data-id="user.id" @click="editModalWindow(user)">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                        |
+                        <a href="#" @click="deleteUser(user.id)">
+                            <i class="fa fa-trash "></i>
+                        </a>
+
+                    </td>
+                  </tr>
+                </tbody></table>
+              </div>
+
+              <div class="card-footer">
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+            <div class="modal fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="addNewLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+
+                    <h5 v-show="!editMode" class="modal-title" id="addNewLabel">Add New User</h5>
+                    <h5 v-show="editMode" class="modal-title" id="addNewLabel">Update User</h5>
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+<form @submit.prevent="editMode ? updateUser() : createUser()">
+<div class="modal-body">
+     <div class="form-group">
+        <input v-model="form.name" type="text" name="name"
+            placeholder="Name"
+            class="form-control" :class="{ 'is-invalid': form.errors.has('name') }">
+        <has-error :form="form" field="name"></has-error>
     </div>
-    <table class="table">
-        <tr>
-            <th scope="col">Id</th>
-            <th scope="col">Nom</th>
-            <th scope="col">Email</th>
-            <th scope="col">Created Date</th>
-        </tr>
-        <tr v-for="user in users" v-bind:key="user.id" style="margin-bottom: 5px;">
-            <th scope="row">{{ user.id }}</th>
-            <td>{{ user.name }}</td>
-            <td>{{ user.email }}</td>
-            <td>{{ user.created_at}}</td>
-        </tr>
-    </table>
+
+     <div class="form-group">
+        <input v-model="form.email" type="email" name="email"
+            placeholder="Email Address"
+            class="form-control" :class="{ 'is-invalid': form.errors.has('email') }">
+        <has-error :form="form" field="email"></has-error>
+    </div>
+
+
+    <div class="form-group">
+        <input v-model="form.password" type="password" name="password" id="password" placeholder="Enter password"
+        class="form-control" :class="{ 'is-invalid': form.errors.has('password') }">
+        <has-error :form="form" field="password"></has-error>
+    </div>
+
+    <div class="form-group">
+        <select name="role" v-model="form.role" id="type" class="form-control" :class="{ 'is-invalid': form.errors.has('role') }">
+            <option value="" disabled selected hidden>Select User Role</option>
+            <option value="2">Admin</option>
+            <option value="1">Standard User</option>
+        </select>
+        <has-error :form="form" field="role"></has-error>
+    </div>
+
 </div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+    <button v-show="editMode" type="submit" class="btn btn-primary">Update</button>
+    <button v-show="!editMode" type="submit" class="btn btn-primary">Create</button>
+</div>
+
+</form>
+
+                </div>
+            </div>
+            </div>
+    </div>
+
 </template>
+
 <script>
-  export default {
-    data() {
-      return {
-        has_error: false,
-        users: null
-      }
-    },
-    mounted() {
-      this.getUsers()
-    },
-    methods: {
-      getUsers() {
-        this.$http({
-          url: `users`,
-          method: 'GET'
-        })
-            .then((res) => {
-              this.users = res.data.users
-            }, () => {
-              this.has_error = true
+    export default {
+        data() {
+            return {
+                editMode: false,
+                users: {},
+                form: new Form({
+                    id: '',
+                    name : '',
+                    email: '',
+                    password: '',
+                    role: '',
+
+                })
+            }
+        },
+
+     
+        methods: {
+
+        
+
+        editModalWindow(user){
+           this.form.clear();
+           this.editMode = true
+           this.form.reset();
+           $('#addNew').modal('show');
+           this.form.fill(user)
+        },
+        updateUser(){
+           this.form.put('/users/update/'+this.form.id)
+               .then(()=>{
+
+                   Toast.fire({
+                      icon: 'success',
+                      title: 'User updated successfully'
+                    })
+
+                    Fire.$emit('AfterCreatedUserLoadIt');
+
+                    $('#addNew').modal('hide');
+               })
+               .catch(()=>{
+                  console.log("Error.....")
+               })
+        },
+        openModalWindow(){
+
+           this.editMode = false
+           this.form.reset();
+           $('#addNew').modal('show');
+        },
+
+        loadUsers() {
+
+        axios.get("/users").then( data => (this.users = data.data));
+      
+
+        },
+
+        createUser(){
+
+            this.$Progress.start()
+
+            this.form.post('/users/create')
+                .then(() => {
+
+                        Toast.fire({
+                          icon: 'success',
+                          title: 'User created successfully'
+                        })
+
+                        this.$Progress.finish()
+
+                        Fire.$emit('AfterCreatedUserLoadIt'); //custom events
+
+                        $('#addNew').modal('hide');
+                        this.loadUsers();
+
+
+                })
+                .catch(() => {
+                   console.log("Error......")
+                })
+
+            
+          },
+          deleteUser(id) {
+            Swal.fire({
+              title: 'Are you sure?',
+              text: "You won't be able to revert this!",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+
+              if (result.value) {
+                //Send Request to server
+                this.form.delete('/users/destroy/'+id)
+                    .then((response)=> {
+                            Swal.fire(
+                              'Deleted!',
+                              'User deleted successfully',
+                              'success'
+                            )
+                    this.loadUsers();
+
+                    }).catch(() => {
+                        Swal.fire({
+                          icon: 'error',
+                          title: 'Oops...',
+                          text: 'Something went wrong!',
+                          footer: '<a href>Why do I have this issue?</a>'
+                        })
+                    })
+                }
+
             })
-      }
+          }
+        },
+
+        created() { //Like Mounted this method
+            this.loadUsers();
+
+            Fire.$on('AfterCreatedUserLoadIt',()=>{ //custom events fire on
+                this.loadUsers();
+            });
+
+            // setInterval(() => 
+            //     this.loadUsers()
+            // ,3000); //Every 3 seconds loadUsers call
+        }
     }
-  }
-</script>
+</script> 

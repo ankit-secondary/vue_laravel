@@ -53,7 +53,10 @@
           },
           success: function () {
             app.success = true
+            app.$toaster.success('User Registration Successful...');
             this.$router.push({name: 'login', params: {successRegistrationRedirect: true}})
+
+
           },
           error: function (res) {
             console.log(res.response.data.errors)
