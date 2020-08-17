@@ -1,8 +1,10 @@
   <template>
-    <div class="container">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-6">
         <div class="card card-default">
-            <div class="card-header">Login</div>
-            <div class="card-body">
+          <div class="card-header">Login</div>
+          <div class="card-body">
                 <div class="alert alert-danger" v-if="has_error">
                     <p>Invalid login</p>
                 </div>
@@ -21,6 +23,8 @@
                   
             </div>
         </div>
+    </div>
+    </div>
     </div>
 </template>
 <script>

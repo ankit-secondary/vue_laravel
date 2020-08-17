@@ -1,8 +1,10 @@
 <template>
     <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-6">
         <div class="card card-default">
-            <div class="card-header">Registration</div>
-            <div class="card-body">
+          <div class="card-header">Registration</div>
+          <div class="card-body">
                 <div class="alert alert-danger" v-if="has_error && !success">
                     <p v-if="error == 'registration_validation_error'">Please complete form field</p>
                     <p v-else> Some error occured</p>
@@ -26,6 +28,8 @@
                 </form>
             </div>
         </div>
+    </div>
+    </div>
     </div>
 </template>
 <script>
