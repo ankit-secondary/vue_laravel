@@ -15,8 +15,10 @@
                         <label for="password">Password</label>
                         <input type="password" id="password" class="form-control" v-model="password" required>
                     </div>
-                    <button type="submit" class="btn btn-success">Login</button>
+                    <button type="submit" class="btn btn-success">Login</button><span/>
+                    <a href="#" v-on:click="forgotpassword"> Forgot Password ? </a>
                 </form>
+                  
             </div>
         </div>
     </div>
@@ -29,7 +31,8 @@ import router from '../router'
         email: null,
         password: null,
        localStorageSupport: true,
-        has_error: false
+        has_error: false,
+
       }
     },
     mounted() {
@@ -56,12 +59,16 @@ import router from '../router'
 
                router.push({name: redirectTo})
           },
+          
           error: function() {
             app.has_error = true
           },
           rememberMe: true,
           fetchUser: true
         })
+      },
+      forgotpassword(){
+        this.$router.push({name: 'reset-password'})
       }
     }
   }

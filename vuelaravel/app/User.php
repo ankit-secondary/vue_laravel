@@ -14,7 +14,7 @@ class User extends Authenticatable implements JWTSubject {
 	 * @var array
 	 */
 	protected $fillable = [
-		'name', 'email', 'password',
+		'name', 'email', 'password', 'role'
 	];
 	/**
 	 * The attributes that should be hidden for arrays.
@@ -32,4 +32,13 @@ class User extends Authenticatable implements JWTSubject {
 	public function getJWTCustomClaims() {
 		return [];
 	}
+
+	/**
+ * Override the mail body for reset password notification mail.
+ */
+public function sendPasswordResetNotification($token)
+{
+    $this->notify(new \App\Notifications\MailResetPasswordNotification($token));
+}
+
 }

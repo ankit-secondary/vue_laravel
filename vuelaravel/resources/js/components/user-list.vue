@@ -143,6 +143,15 @@
            $('#addNew').modal('show');
            this.form.fill(user)
         },
+
+         loadUsers() {
+
+        axios.get("/users").then( data => (this.users = data.data));
+      
+
+        },
+
+
         updateUser(){
            this.form.put('/users/update/'+this.form.id)
                .then(()=>{
@@ -152,14 +161,16 @@
                       title: 'User updated successfully'
                     })
 
-                    Fire.$emit('AfterCreatedUserLoadIt');
+                    Fire.$emit('AfterCreatedUserLoadIt'); 
 
                     $('#addNew').modal('hide');
+                    this.loadUsers();
                })
                .catch(()=>{
                   console.log("Error.....")
                })
         },
+
         openModalWindow(){
 
            this.editMode = false
@@ -167,16 +178,11 @@
            $('#addNew').modal('show');
         },
 
-        loadUsers() {
-
-        axios.get("/users").then( data => (this.users = data.data));
-      
-
-        },
+       
 
         createUser(){
 
-            this.$Progress.start()
+          
 
             this.form.post('/users/create')
                 .then(() => {
@@ -186,7 +192,7 @@
                           title: 'User created successfully'
                         })
 
-                        this.$Progress.finish()
+                      
 
                         Fire.$emit('AfterCreatedUserLoadIt'); //custom events
 

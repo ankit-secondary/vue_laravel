@@ -17,6 +17,11 @@ Route::prefix('auth')->group(
 		Route::post('register', 'AuthController@register');
 		Route::post('login', 'AuthController@login');
 		Route::get('refresh', 'AuthController@refresh');
+		 // Send reset password mail
+		 Route::post('reset-password', 'AuthController@sendPasswordResetLink');
+        
+		 // handle reset password form process
+		 Route::post('reset/password', 'AuthController@callResetPassword');
 
 		Route::group(['middleware' => 'auth:api'], function () {
 				Route::get('user', 'AuthController@user');

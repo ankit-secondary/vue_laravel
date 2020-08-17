@@ -6,37 +6,28 @@
         <ul id="nav-mobile" class="left hide-on-med-and-down">
             <!--UNLOGGED-->
 
-            <li>
-            <router-link :to="{name: 'home'}">
-                    Home
-                </router-link>
-           </li>
-      
-            <li v-if="!$auth.check()" v-for="(route, key) in routes.unlogged" v-bind:key="route.path">
+            <li v-if="!$auth.check()" v-for="(route, key) in routes.unlogged" v-bind:key="route.path" >
                 <router-link  :to="{ name : route.path }" :key="key">
                     {{route.name}}
                 </router-link>
             </li>
             <!--LOGGED USER-->
-            <li v-if="$auth.check(1)" v-for="(route, key) in routes.user" v-bind:key="route.path">
+            <li v-if="$auth.check()  && $auth.user().role == '1'" v-for="(route, key) in routes.user" v-bind:key="route.path">
                 <router-link  :to="{ name : route.path }" :key="key">
                     {{route.name}}
                 </router-link>
             </li>
             <!--LOGGED ADMIN-->
-            <li v-if="$auth.check(2)" v-for="(route, key) in routes.admin" v-bind:key="route.path">
+            <li v-if="$auth.check() && $auth.user().role == '2' " v-for="(route, key) in routes.admin" v-bind:key="route.path">
                 <router-link  :to="{ name : route.path }" :key="key">
                     {{route.name}}
                 </router-link>
             </li>
-
-          
-
           </ul>
             <!--LOGOUT-->
              <ul class="right">
             <li v-if="$auth.check()">
-                <a href="#" @click.prevent="$auth.logout()">Logout</a>
+                <a href="#" v-on:click="logout" @click.prevent="$auth.logout()">Logout</a>
                 
             </li>
           </ul>
@@ -44,7 +35,8 @@
       </div>
     </div>
   </nav>
-     
+
+
         <footer class="page-footer">
             <div class="footer-copyright">
                 <div class="container">
@@ -56,13 +48,24 @@
     </div>
 </template>
 <script>
-
+ 
+ 
   export default {
     data() {
+      
+
       return {
+                
         routes: {
+
           // UNLOGGED
           unlogged: [
+
+          {
+              name: 'Home',
+              path: 'home'
+            },
+
             {
               name: 'Register',
               path: 'register'
@@ -74,6 +77,8 @@
           ],
           // LOGGED USER
           user: [
+           
+
             {
               name: 'Dashboard',
               path: 'dashboard'
@@ -81,18 +86,42 @@
           ],
           // LOGGED ADMIN
           admin: [
+          
             {
               name: 'Dashboard',
               path: 'admin.dashboard'
+              
+            },
+
+             {
+              name: 'Articles',
+              path: 'admin.article'
             }
+
           ]
+
         }
       }
+    },
+
+    methods:{
+
+       logout:function(event){
+         
+                      Swal.fire(
+                              'Logged out!',
+                              'User Logged out  successfully',
+                              'success'
+                            )
+          
+       }
+
     },
     mounted() {
       //
     }
   }
+
 </script>
 
 <style scoped>

@@ -5,7 +5,9 @@ import Register from './components/Register';
 import Login from './components/Login';
 import Dashboard from './components/user/Dashboard';
 import AdminDashboard from './components/admin/Dashboard';
-
+import Article from './components/admin/Article';
+import ForgotPassword from './components/ForgotPassword';
+import ResetPasswordForm from './components/ResetPasswordForm';
 
 
 
@@ -35,7 +37,31 @@ const routes = [
       auth: false
     }
   },
+{
+  path: '/logout',
+  name: 'logout',
+  meta: {
+    auth: true
+  }
+},
 
+//Forgot password
+{ 
+  path: '/reset-password', 
+  name: 'reset-password', 
+  component: ForgotPassword, 
+  meta: { 
+    auth:false 
+  } 
+},
+{ 
+  path: '/reset-password/:token', 
+  name: 'reset-password-form', 
+  component: ResetPasswordForm, 
+  meta: { 
+    auth:false 
+  } 
+},
  
  
   // USER ROUTES
@@ -44,7 +70,8 @@ const routes = [
     name: 'dashboard',
     component: Dashboard,
     meta: {
-      auth: true
+      auth: true,
+      is_user:true,
     }
   },
   // ADMIN ROUTES
@@ -58,7 +85,15 @@ const routes = [
     }
   },
 
-  { path: '*', redirect: '/' },
+   {
+    path: '/article',
+    name: 'admin.article',
+    component: Article,
+    meta: {
+    auth: true,
+    is_admin:true,
+    }
+  },
 
 
 ];
@@ -68,11 +103,7 @@ const router = new VueRouter({
   routes,
 });
 
-var Role  = window.localStorage.getItem('role');
-    if(Role)
-    {
 
-    }
 
   router.beforeEach((to, from, next) => {
     if(to.matched.some(record => record.meta.auth)) {
@@ -83,9 +114,33 @@ var Role  = window.localStorage.getItem('role');
                     next()
                 }
                 else{
-                    next({ name: 'dashboard'})
+
+                  Swal.fire(
+                    'Access Denied!',
+                    'You have no access',
+                    'warning'
+                  )
+
+                   next({ name: 'dashboard'})
                 }
-            }else {
+            }
+            
+            if(to.matched.some(record => record.meta.is_user)) {
+              if(role == 1){
+                  next()
+              }
+              else{
+
+                Swal.fire(
+                  'Access Denied!',
+                  'You have no access',
+                  'warning'
+                )
+                  next({ name: 'admin.dashboard'})
+              }
+          }
+            
+            else {
                 next()
             }
         
