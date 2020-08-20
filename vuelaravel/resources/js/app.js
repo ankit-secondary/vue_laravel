@@ -2,7 +2,6 @@ import 'es6-promise/auto'
 import axios from 'axios'
 import './bootstrap'
 import Vue from 'vue'
-
 import Vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css';
 
@@ -55,12 +54,13 @@ require('./progressbar');
 require('./customEvents');
 
 
+
+
 //Import v-from
 import { Form, HasError, AlertError } from 'vform'
 window.Form = Form;
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
-
 
 window.Toast = Toast
 // Set Vue globally

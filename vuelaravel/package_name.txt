@@ -12,3 +12,6 @@ npm i @websanova/vue-auth vue-router vue-axios axios es6-promise
 #.env configurations
 APP_URL=http://localhost:8000
 MIX_APP_URL="${APP_URL}"
+
+# image
+composer require intervention/image

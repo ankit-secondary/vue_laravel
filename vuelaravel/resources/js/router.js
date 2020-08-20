@@ -5,7 +5,7 @@ import Register from './components/Register';
 import Login from './components/Login';
 import Dashboard from './components/user/Dashboard';
 import AdminDashboard from './components/admin/Dashboard';
-import Article from './components/admin/Article';
+import Product from './components/admin/Product';
 import ForgotPassword from './components/ForgotPassword';
 import ResetPasswordForm from './components/ResetPasswordForm';
 
@@ -86,9 +86,9 @@ const routes = [
   },
 
    {
-    path: '/article',
-    name: 'admin.article',
-    component: Article,
+    path: '/products',
+    name: 'admin.products',
+    component:Product,
     meta: {
     auth: true,
     is_admin:true,

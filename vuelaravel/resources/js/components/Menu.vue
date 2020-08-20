@@ -2,6 +2,7 @@
   <div>
     <nav >
        <div class="container">
+         
                 <div class="nav-wrapper">
         <ul id="nav-mobile" class="left hide-on-med-and-down">
             <!--UNLOGGED-->
@@ -27,13 +28,14 @@
             <!--LOGOUT-->
              <ul class="right">
             <li v-if="$auth.check()">
-                <a href="#" v-on:click="logout" @click.prevent="$auth.logout()">Logout</a>
+                <a href="/logout" v-on:click="logout">Logout</a>
                 
             </li>
           </ul>
         
       </div>
     </div>
+    
   </nav>
 
 
@@ -48,7 +50,6 @@
     </div>
 </template>
 <script>
- 
  
   export default {
     data() {
@@ -94,8 +95,8 @@
             },
 
              {
-              name: 'Articles',
-              path: 'admin.article'
+              name: 'products',
+              path: 'admin.products'
             }
 
           ]
@@ -107,16 +108,16 @@
     methods:{
 
        logout:function(event){
-         
-                      Swal.fire(
-                              'Logged out!',
-                              'User Logged out  successfully',
-                              'success'
-                            )
+               
+         this.$auth.logout();
+          
+                     
           
        }
 
     },
+
+  
     mounted() {
       //
     }

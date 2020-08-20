@@ -17,12 +17,12 @@
                     </div>
                     <div class="form-group" v-bind:class="{ 'has-error': has_error && errors.password }">
                         <label for="password">Password</label>
-                        <input type="password" id="password" class="form-control" v-model="password">
+                        <input type="password" id="password" class="form-control" v-model="password" v-bind:rules="passwordRule">
                         <span class="help-block" v-if="has_error && errors.password">{{ errors.password }}</span>
                     </div>
                     <div class="form-group" v-bind:class="{ 'has-error': has_error && errors.password }">
                         <label for="password_confirmation">Confirm password</label>
-                        <input type="password" id="password_confirmation" class="form-control" v-model="password_confirmation">
+                        <input type="password" id="password_confirmation" class="form-control" v-model="password_confirmation" v-bind:rules="passwordRule">
                     </div>
                     <button type="submit" class="btn btn-success">Submit</button>
                 </form>
@@ -43,7 +43,10 @@
         has_error: false,
         error: '',
         errors: {},
-        success: false
+        success: false,
+        passwordRule:[
+          v => v && v.length >=8 || 'Minimum length of password should be 8'
+        ]
       }
     },
     methods: {

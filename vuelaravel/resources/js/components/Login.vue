@@ -8,14 +8,14 @@
                 <div class="alert alert-danger" v-if="has_error">
                     <p>Invalid login</p>
                 </div>
-                <form autocomplete="off" @submit.prevent="login" method="post">
+                <form autocomplete="off" @submit.prevent="login" method="post" id="login_form">
                     <div class="form-group">
                         <label for="email">E-mail</label>
-                        <input type="email" id="email" class="form-control" placeholder="user@example.com" v-model="email" required>
+                        <input type="email" id="email" class="form-control" placeholder="user@example.com" v-model="email">
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input type="password" id="password" class="form-control" v-model="password" required>
+                        <input type="password" id="password" class="form-control" v-model="password">
                     </div>
                     <button type="submit" class="btn btn-success">Login</button><span/>
                     <a href="#" v-on:click="forgotpassword"> Forgot Password ? </a>
@@ -36,6 +36,7 @@ import router from '../router'
         password: null,
        localStorageSupport: true,
         has_error: false,
+       
 
       }
     },
@@ -45,7 +46,7 @@ import router from '../router'
     methods: {
       login() {
         // get the redirect object
-      var redirect = this.$auth.redirect();
+      
       var app= this;
         this.$auth.login({
           params: {
@@ -57,7 +58,7 @@ import router from '../router'
             var role= response.data.user.role;
             window.localStorage.setItem('role', response.data.user.role);
            
-      const redirectTo = redirect ? redirect.from.name : role==2 ? 'admin.dashboard' : 'dashboard'
+      const redirectTo = role==2 ? 'admin.dashboard' : 'dashboard'
       
       app.$toaster.success('Logged in Successfully...');
 
@@ -68,7 +69,7 @@ import router from '../router'
             app.has_error = true
           },
           rememberMe: true,
-          fetchUser: true
+          
         })
       },
       forgotpassword(){
@@ -76,4 +77,5 @@ import router from '../router'
       }
     }
   }
+
 </script>

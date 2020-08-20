@@ -23,6 +23,9 @@ Route::prefix('auth')->group(
 		 // handle reset password form process
 		 Route::post('reset/password', 'AuthController@callResetPassword');
 
+		 // # [ADMIN SECTION]
+
+
 		Route::group(['middleware' => 'auth:api'], function () {
 				Route::get('user', 'AuthController@user');
 				Route::post('logout', 'AuthController@logout');
@@ -31,12 +34,20 @@ Route::prefix('auth')->group(
 	});
 
 Route::group(['middleware' => 'auth:api'], function () {
-		// Users
+		// Users detail
 		Route::get('users', 'UserController@index')->middleware('isAdmin');
 		Route::get('users/{id}', 'UserController@show')->middleware('isAdminOrSelf');
 
 		Route::put('users/update/{id}', 'UserController@update')->middleware('isAdmin');
 		Route::post('users/create', 'UserController@store')->middleware('isAdmin');
 		Route::delete('users/destroy/{id}', 'UserController@destroy')->middleware('isAdmin');
+
+//Products  
+
+Route::get('products', 'Admin\ProductController@index')->middleware('isAdmin');
+Route::put('products/update/{id}', 'Admin\ProductController@update')->middleware('isAdmin');
+Route::post('products/create', 'Admin\ProductController@store')->middleware('isAdmin');
+Route::delete('products/destroy/{id}', 'Admin\ProductController@destroy')->middleware('isAdmin');
+
 
 	});
